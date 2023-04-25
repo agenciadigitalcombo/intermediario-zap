@@ -11,12 +11,13 @@ function router()
         return strlen($value) > 2;
     } ) );
 
-    $nameClass = 'controle\\'. $explode_method[0] .'::';
-    $methodClass = $explode_method[1];
-
-    if( is_callable($nameClass . $methodClass)) {
-        call_user_func( $nameClass . $methodClass );
-        die;
+    if(count($explode_method) > 1) {
+        $nameClass = 'controle\\'. $explode_method[0] .'::';
+        $methodClass = $explode_method[1];    
+        if( is_callable($nameClass . $methodClass)) {
+            call_user_func( $nameClass . $methodClass );
+            die;
+        }
     }
 
 }
