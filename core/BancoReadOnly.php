@@ -2,7 +2,7 @@
 
 namespace core;
 
-class Banco
+class BancoReadOnly
 {
 
     private $host, $db, $user, $pass;
@@ -14,10 +14,10 @@ class Banco
     public function __construct()
     {
 
-        $this->host = HOST;
-        $this->db = BANCO;
-        $this->user = USER;
-        $this->pass = PASS;
+        $this->host = HOST_READONLY;
+        $this->db = BANCO_READONLY;
+        $this->user = USER_READONLY;
+        $this->pass = PASS_READONLY;
         
         try {
             $this->pdo = new \PDO("mysql:host={$this->host};dbname={$this->db}", $this->user, $this->pass);
@@ -45,16 +45,7 @@ class Banco
         } catch (\Throwable $th) {
             $this->error();
         }
-    }
-
-    public function exec(string $sql): void
-    {
-        try {
-            $this->pdo->query($sql);
-        } catch (\Throwable $th) {
-            $this->error();
-        }
-    }
+    }    
 
     public function table(string $table): void
     {
@@ -89,32 +80,5 @@ class Banco
         $sql = "SELECT * FROM {$this->table} {$where} {$order}";
         return $this->query($sql);
     }
-
-    public function insert(array $argument): void
-    {
-        $cols = implode(',', array_keys($argument));
-        $values = array_values($argument);
-        $values = array_map(function ($v) {
-            return "'{$v}'";
-        }, $values);
-        $values = implode(',', $values);
-        $sql =  "INSERT INTO {$this->table} ({$cols}) VALUES ({$values})";
-        $this->exec($sql);
-    }
-
-    public function update(array $argument): void
-    {
-        $sets = [];
-        foreach ($argument as $key => $value) {
-            $sets[] = "{$key}='{$value}'";
-        }
-        $sets = implode(', ', $sets);
-        $sql = "UPDATE {$this->table} SET {$sets} WHERE {$this->where}";
-        $this->exec($sql);
-    }
-
-    public function delete(): void
-    {
-        $this->exec("DELETE FROM {$this->table} WHERE {$this->where}");
-    }
+    
 }

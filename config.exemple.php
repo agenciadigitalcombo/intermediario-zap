@@ -5,6 +5,11 @@ define('BANCO', null);
 define('USER', null);
 define('PASS', null);
 
+define('HOST_READONLY', null);
+define('BANCO_READONLY', null);
+define('USER_READONLY', null);
+define('PASS_READONLY', null);
+
 define('SALT', null);
 
 define('EMAIL_DEFAULT', '');
