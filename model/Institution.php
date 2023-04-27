@@ -23,7 +23,20 @@ class Institution
         string $email
     ): void {
 
+
         if (!$this->isRegister($ref)) {
+
+            $db_read_only = new \core\BancoReadOnly();
+            $integration = new \model\Integration($db_read_only);
+            $dados_whats = $integration->whats($ref);
+
+            $channel = $dados_whats['channel'];
+            $session_token = $dados_whats['session_token'];
+
+            $aws = new \model\Aws();
+            $whats = new \model\whats($aws);
+            $isConnected = $whats->status($channel, $session_token);
+
             $this->db->insert([
                 'name' => $name,
                 'color' => $color,
@@ -35,9 +48,9 @@ class Institution
                 'register_date' => date('Y-m-d H:i:s'),
                 'register_date' => date('Y-m-d H:i:s'),
                 'balance' => 1000,
-                'channel' => null,
-                'session_token' => null,
-                'status' => null,
+                'channel' => $channel,
+                'session_token' => $session_token,
+                'status' => $isConnected,
                 'sender' => 0,
                 'fail' => 0,
                 'custom' => serialize([]),

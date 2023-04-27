@@ -8,8 +8,7 @@ class Event extends \core\Controle
     static public function start()
     {
         
-        $dados = new \DTO\start();
-        
+        $dados = new \DTO\start();                
         $db = new \core\Banco();
         $inst = new \model\Institution($db);
 
@@ -27,7 +26,7 @@ class Event extends \core\Controle
             "Evento Estartado",
             [
                 "nextMessage" => "2023-04-31 09:30:60",
-                "debug" => $dados->name,
+                "debug" => null,
             ]
         );
     }
