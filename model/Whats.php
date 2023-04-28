@@ -35,12 +35,12 @@ class whats
             [
                 "phone" => "5582999776698",
                 "message" => "Seja bem vindo Bruno",
-                "isGroup" => "false"
+                "isGroup" => false
             ],
             ["Authorization: Bearer {$token}"]
         );
 
-        print_r($res); die;
+        echo json_encode($res); die;
 
         return false;
     }

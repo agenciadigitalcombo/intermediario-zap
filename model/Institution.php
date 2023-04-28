@@ -34,7 +34,7 @@ class Institution
             $session_token = $dados_whats['session_token'];
 
             $aws = new \model\Aws();
-            $whats = new \model\whats($aws);
+            $whats = new \model\Whats($aws);
             $isConnected = $whats->status($channel, $session_token);
 
             $tel = new \model\Phone($phone);

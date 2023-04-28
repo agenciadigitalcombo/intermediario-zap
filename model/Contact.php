@@ -31,7 +31,7 @@ class Contact
     {       
 
         $aws = new \model\Aws();
-        $whats  = new \model\whats($aws);
+        $whats  = new \model\Whats($aws);
 
         $whats->sendHello();
 

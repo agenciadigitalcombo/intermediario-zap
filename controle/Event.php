@@ -7,8 +7,8 @@ class Event extends \core\Controle
 
     static public function start()
     {
-        
-        $dados = new \DTO\start();                
+       
+        $dados = new \DTO\Start();                
         $db = new \core\Banco();
         $inst = new \model\Institution($db);
         $contact = new \model\Contact($db);
