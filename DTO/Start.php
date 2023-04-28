@@ -15,6 +15,7 @@ class start
     public $cc_email;
     public $cc_phone;
     public $external_id;
+    public $cc_ref;
 
     public function __construct()
     {
@@ -26,10 +27,14 @@ class start
         $this->phone = $_REQUEST['instituicao']['telefone'];
         $this->email = $_REQUEST['instituicao']['email'];
 
+        $this->external_id = $_REQUEST['external_id'];
+
+        $donation = new \model\Donation();       
+
         $this->cc_name = $_REQUEST['nome'];
         $this->cc_email = $_REQUEST['email'];
         $this->cc_phone = $_REQUEST['telefone'];
-        
-        $this->external_id = $_REQUEST['external_id'];
+        $this->cc_ref = $donation->getDonorByExternalId($this->external_id);
+
     }
 }

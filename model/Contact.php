@@ -26,16 +26,22 @@ class Contact
         string $name,
         string $phone,
         string $email,
-        string $external_id
+        string $ref
     ): void
-    {
-        $donation = new \model\Donation();
-        $ref = $donation->getDonorByExternalId($external_id);
+    {       
+
+        $aws = new \model\Aws();
+        $whats  = new \model\whats($aws);
+
+        $whats->sendHello();
+
         if (!$this->existContact($ref)) {
             $tel = new \model\Phone($phone);
             $valid = false;
             $isNumberValid = $tel->valid;
             $valid = $isNumberValid;
+
+
             if($isNumberValid) {
                 
             }
