@@ -18,25 +18,35 @@ class Contact
         $this->db->where([
             'ref' => $ref
         ]);
-        return count($this->db->select()) > 1;
+        return count($this->db->select()) > 0;
     }
 
     public function register(
-        string $ref,
         string $institution_ref,
         string $name,
-        string $ddd,
-        string $phone
+        string $phone,
+        string $email,
+        string $external_id
     ): void
     {
+        $donation = new \model\Donation();
+        $ref = $donation->getDonorByExternalId($external_id);
         if (!$this->existContact($ref)) {
+            $tel = new \model\Phone($phone);
+            $valid = false;
+            $isNumberValid = $tel->valid;
+            $valid = $isNumberValid;
+            if($isNumberValid) {
+                
+            }
             $this->db->insert([
                 'ref' => $ref,
                 'institution_ref' => $institution_ref,
                 'name' => $name,
-                'ddd' => $ddd,
-                'phone' => $phone,
-                'status' => null,
+                'ddd' => $tel->ddd,
+                'phone' => $tel->phone,
+                'email' => $email,
+                'status' => $valid,
                 'sender' => 0,
                 'register_date' => date('Y-m-d'),
                 'custom' => serialize([]),

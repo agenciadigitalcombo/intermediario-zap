@@ -26,6 +26,7 @@ CREATE TABLE `contact` (
     `name` varchar(255) DEFAULT NULL,
     `ddd` varchar(255) DEFAULT NULL,
     `phone` varchar(255) DEFAULT NULL,
+    `email` varchar(255) DEFAULT NULL,
     `status` int DEFAULT 0,
     `sender` int DEFAULT 0,
     `register_date` varchar(255) DEFAULT NULL,

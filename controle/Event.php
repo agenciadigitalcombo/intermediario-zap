@@ -12,6 +12,8 @@ class Event extends \core\Controle
         $db = new \core\Banco();
         $inst = new \model\Institution($db);
 
+        $contact = new \model\Contact($db);
+
         $inst->register(
             $dados->name,
             $dados->color,
@@ -20,6 +22,14 @@ class Event extends \core\Controle
             $dados->site,
             $dados->phone,
             $dados->email
+        );
+
+        $contact->register(
+            $dados->ref,
+            $dados->cc_name,
+            $dados->cc_phone,
+            $dados->cc_email,
+            $dados->external_id
         );
 
         self::printSuccess(

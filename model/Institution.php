@@ -37,13 +37,15 @@ class Institution
             $whats = new \model\whats($aws);
             $isConnected = $whats->status($channel, $session_token);
 
+            $tel = new \model\Phone($phone);
+
             $this->db->insert([
                 'name' => $name,
                 'color' => $color,
                 'logo' => $logo,
                 'ref' => $ref,
                 'site' => $site,
-                'phone' => $phone,
+                'phone' => $tel->phone,
                 'email' => $email,
                 'register_date' => date('Y-m-d H:i:s'),
                 'register_date' => date('Y-m-d H:i:s'),
