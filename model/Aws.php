@@ -45,19 +45,24 @@ class Aws
     public function get(string $path, array $payload = [], $header = [])
     {
 
-        $this->header = array_merge($this->header, $header);
         try {
             $options = [
                 CURLOPT_HEADER         => 0,
                 CURLOPT_RETURNTRANSFER => 1,
                 CURLOPT_URL            => $path,
-                CURLOPT_HTTPHEADER     => $this->header,
+                CURLOPT_HTTPHEADER     => $header,
             ];
             $con = curl_init();
             curl_setopt_array($con, $options);
             $ex = curl_exec($con);
+            $message = curl_error($con);
             curl_close($con);
-            return json_decode($ex, true) ?? [];
+            $error = [
+                "next" => false,
+                "message" => $message,
+                "payload" =>[]
+            ];
+            return json_decode($ex, true) ?? $error;
         } catch (\Throwable $th) {
         }
     }
