@@ -52,6 +52,8 @@ class Aws
                 CURLOPT_URL            => $path,
                 CURLOPT_HTTPHEADER     => $header,
             ];
+            print($path);
+            print_r($header);
             $con = curl_init();
             curl_setopt_array($con, $options);
             $ex = curl_exec($con);
