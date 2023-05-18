@@ -10,7 +10,7 @@ class Aws
             "content-type: application/json",
         ];
     }
-    public function post(string $path, array $payload = [], $header = [])
+    public function post(string $path, array $payload = [], $header = [], $show_error = false)
     {
         $content = json_encode($payload, JSON_UNESCAPED_UNICODE);
         $this->header = array_merge($this->header, $header);
@@ -26,9 +26,20 @@ class Aws
             $con = curl_init();
             curl_setopt_array($con, $options);
             $ex = curl_exec($con);
+            $message = curl_error($con);
+            if($show_error) {
+                echo $message;
+            }
             curl_close($con);
-            return json_decode($ex, true) ?? [];
+            $error = [
+                "next" => false,
+                "message" => $message,
+                "payload" =>[]
+
+            ];
+            return json_decode($ex, true) ?? $error;
         } catch (\Throwable $th) {
+            
         }
     }
     public function get(string $path, array $payload = [], $header = [])

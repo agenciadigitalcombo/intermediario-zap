@@ -8,7 +8,7 @@ function router()
     
     $explode_method = explode('/', $path);
     $explode_method = array_values( array_filter( $explode_method, function($value) {
-        return strlen($value) > 2;
+        return strlen($value) > 2 ;
     } ) );
 
     if(count($explode_method) > 1) {
