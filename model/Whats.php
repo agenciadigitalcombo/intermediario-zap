@@ -20,6 +20,7 @@ class whats
             [],
             ["Authorization: Bearer {$token}"]
         );
+        var_dump($request);
         return $request['status'] ?? false;
     }
 
