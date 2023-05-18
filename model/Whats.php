@@ -40,6 +40,10 @@ class whats
             ["Authorization: Bearer {$token}"]
         );
 
+        $valid = empty( $res["response"] ) && $res['status'] == 'Connected' ? false : true;
+
+        var_dump($valid);
+
         echo json_encode($res); die;
 
         return false;
