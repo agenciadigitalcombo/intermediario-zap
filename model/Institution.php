@@ -39,6 +39,8 @@ class Institution
             $whats = new \model\Whats($aws);
             $isConnected = $whats->status($channel, $session_token);
 
+            print_r($isConnected);
+
             $tel = new \model\Phone($phone);
 
             print_r([
