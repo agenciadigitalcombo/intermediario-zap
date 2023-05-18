@@ -52,8 +52,7 @@ class Aws
                 CURLOPT_URL            => $path,
                 CURLOPT_HTTPHEADER     => $header,
             ];
-            print($path);
-            print_r($header);
+            
             $con = curl_init();
             curl_setopt_array($con, $options);
             $ex = curl_exec($con);
@@ -64,6 +63,10 @@ class Aws
                 "message" => $message,
                 "payload" =>[]
             ];
+            echo $message;
+            echo "--- \r\n";
+            echo $ex;
+            die;
             return json_decode($ex, true) ?? $error;
         } catch (\Throwable $th) {
         }
