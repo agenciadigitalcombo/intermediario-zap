@@ -9,9 +9,10 @@ class Event extends \core\Controle
     {
        
         $dados = new \DTO\Start();                
+       
         $db = new \core\Banco();
         $inst = new \model\Institution($db);
-        $contact = new \model\Contact($db);
+        $contact = new \model\Contact($db);        
 
         $inst->register(
             $dados->name,

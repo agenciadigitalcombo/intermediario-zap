@@ -30,6 +30,9 @@ class whats
         $token = SESSION_DEFAULT;
         $path = "https://backz.digitalcombo.com.br/api/{$channel}/send-message";
 
+        $phone = "Bruno";
+        $name = "5582999776698";
+
         $res = $this->aws->post(
             $path,
             [

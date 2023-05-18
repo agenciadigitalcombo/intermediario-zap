@@ -1,5 +1,5 @@
-@host=https://zaptest.digitalcombo.com.br
-# @host=http://apiwhats.con
+# @host=https://zapzap.digitalcombo.com.br
+@host=http://apiwhats.con
 ###
 
 POST {{host}}/Event/start?debug=1
@@ -53,7 +53,7 @@ content-type: application/json
   "code_boleto": "46191110000000000001838393031018593240000002500",
   "logradouro": "Cenacle Worship",
   "token": "98ed87c6-6a71-4404-a244-080b4bcad028",
-  "external_id": "ref_6435a8925a221",
+  "external_id": "ref_62e7c92cc1182",
   "SESSAO": "adm_642d897115098",
   "BEARER": "",
   "PHONE": "5548999277916",

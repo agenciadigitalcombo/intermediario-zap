@@ -16,7 +16,7 @@ class Donation
         $this->db->where([
             "external_fk" => $external_ref
         ]);
-        $data = $this->db->select();
-        return $data[0]['doador_fk'];
+        $data = $this->db->select();        
+        return $data[0]['doador_fk'] ?? '';
     }
 }
