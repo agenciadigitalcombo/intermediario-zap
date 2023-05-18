@@ -24,7 +24,7 @@ class Institution
     ): void {
 
 
-        var_dump($this->isRegister($ref));
+        
 
         if (!$this->isRegister($ref)) {
 
@@ -40,6 +40,25 @@ class Institution
             $isConnected = $whats->status($channel, $session_token);
 
             $tel = new \model\Phone($phone);
+
+            print_r([
+                'name' => $name,
+                'color' => $color,
+                'logo' => $logo,
+                'ref' => $ref,
+                'site' => $site,
+                'phone' => $tel->phone,
+                'email' => $email,
+                'register_date' => date('Y-m-d H:i:s'),
+                'register_date' => date('Y-m-d H:i:s'),
+                'balance' => 1000,
+                'channel' => $channel,
+                'session_token' => $session_token,
+                'status' => $isConnected,
+                'sender' => 0,
+                'fail' => 0,
+                'custom' => serialize([]),
+            ]);
 
             $this->db->insert([
                 'name' => $name,
