@@ -24,6 +24,8 @@ class Institution
     ): void {
 
 
+        var_dump($this->isRegister($ref));
+
         if (!$this->isRegister($ref)) {
 
             $db_read_only = new \core\BancoReadOnly();

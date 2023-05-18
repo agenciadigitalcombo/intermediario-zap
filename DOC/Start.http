@@ -1,7 +1,7 @@
-# @host=https://zapzap.digitalcombo.com.br
-@host=http://apiwhats.con
-###
+@host=https://zapzap.digitalcombo.com.br
+# @host=http://apiwhats.con
 
+###
 POST {{host}}/Event/start?debug=1
 content-type: application/json
 
