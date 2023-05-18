@@ -23,7 +23,7 @@ class whats
         return $request['status'] ?? false;
     }
 
-    public function sendHello(): bool
+    public function sendHello($phone, $name): bool
     {
 
         $channel = CHANNEL_DEFAULT;
@@ -33,8 +33,8 @@ class whats
         $res = $this->aws->post(
             $path,
             [
-                "phone" => "5582999776698",
-                "message" => "Seja bem vindo Bruno",
+                "phone" => $phone,
+                "message" => "Seja bem vindo {$name}",
                 "isGroup" => false
             ],
             ["Authorization: Bearer {$token}"]
@@ -42,10 +42,6 @@ class whats
 
         $valid = empty( $res["response"] ) && $res['status'] == 'Connected' ? false : true;
 
-        var_dump($valid);
-
-        echo json_encode($res); die;
-
-        return false;
+        return $valid;
     }
 }

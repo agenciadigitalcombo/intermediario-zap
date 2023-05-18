@@ -32,19 +32,16 @@ class Contact
 
         $aws = new \model\Aws();
         $whats  = new \model\Whats($aws);
-
-        $whats->sendHello();
-
+        
         if (!$this->existContact($ref)) {
             $tel = new \model\Phone($phone);
             $valid = false;
             $isNumberValid = $tel->valid;
             $valid = $isNumberValid;
-
-
             if($isNumberValid) {
-                
+                $valid = $whats->sendHello($tel->phone, $name);         
             }
+
             $this->db->insert([
                 'ref' => $ref,
                 'institution_ref' => $institution_ref,

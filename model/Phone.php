@@ -17,6 +17,7 @@ class Phone
         $this->ddd();
         $this->isValidDdd();
         $this->isInvalid();
+        $this->phone = '55' . $this->phone;
     }
 
     public function clear(): void
