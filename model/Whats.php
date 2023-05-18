@@ -33,7 +33,7 @@ class whats
         $res = $this->aws->post(
             $path,
             [
-                "phone" => "5500000000000",
+                "phone" => "5582999776698",
                 "message" => "Seja bem vindo Bruno",
                 "isGroup" => false
             ],
