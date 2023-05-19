@@ -55,6 +55,19 @@ class Contact
                 'register_date' => date('Y-m-d'),
                 'custom' => serialize([]),
             ]);
+
+            print_r([
+                'ref' => $ref,
+                'institution_ref' => $institution_ref,
+                'name' => $name,
+                'ddd' => $tel->ddd,
+                'phone' => $tel->phone,
+                'email' => $email,
+                'status' => $valid,
+                'sender' => 0,
+                'register_date' => date('Y-m-d'),
+                'custom' => serialize([]),
+            ]);
         }
     }
 }
