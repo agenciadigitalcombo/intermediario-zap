@@ -22,10 +22,7 @@ class Institution
         string $phone,
         string $email
     ): void {
-
-
-        
-
+ 
         if (!$this->isRegister($ref)) {
 
             $db_read_only = new \core\BancoReadOnly();
@@ -39,7 +36,7 @@ class Institution
             $whats = new \model\Whats($aws);
             $isConnected = $whats->status($channel, $session_token);
 
-            print_r($isConnected);
+            var_dump($isConnected);
 
             $tel = new \model\Phone($phone);
 

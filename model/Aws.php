@@ -53,6 +53,8 @@ class Aws
                 CURLOPT_URL            => $path,
                 CURLOPT_HTTPHEADER     => $this->header,
             ];
+
+            var_dump($options);
             
             $con = curl_init();
             curl_setopt_array($con, $options);
