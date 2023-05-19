@@ -63,7 +63,7 @@ class Contact
                 'ddd' => $tel->ddd,
                 'phone' => $tel->phone,
                 'email' => $email,
-                'status' => $valid,
+                'status' => (int) $valid,
                 'sender' => 0,
                 'register_date' => date('Y-m-d'),
                 'custom' => serialize([]),
