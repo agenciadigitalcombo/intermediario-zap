@@ -34,6 +34,9 @@ class Contact
         $whats  = new \model\Whats($aws);
 
         if (!$this->existContact($ref)) {
+            
+            echo "register contact";
+
             $tel = new \model\Phone($phone);
             $valid = false;
             $isNumberValid = $tel->valid;

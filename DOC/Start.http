@@ -2,7 +2,7 @@
 # @host=http://apiwhats.con
 
 ###
-POST {{host}}/Event/start?debug=1
+POST {{host}}/Event/start
 content-type: application/json
 
 {

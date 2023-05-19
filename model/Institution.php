@@ -25,6 +25,8 @@ class Institution
  
         if (!$this->isRegister($ref)) {
 
+            echo "register inst";
+
             $db_read_only = new \core\BancoReadOnly();
             $integration = new \model\Integration($db_read_only);
             $dados_whats = $integration->whats($ref);
