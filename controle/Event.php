@@ -36,7 +36,13 @@ class Event extends \core\Controle
             "Evento Estartado",
             [
                 "nextMessage" => "2023-04-31 09:30:60",
-                "debug" => null,
+                "debug" => [
+                    $dados->ref,
+                    $dados->cc_name,
+                    $dados->cc_phone,
+                    $dados->cc_email,
+                    $dados->cc_ref
+                ],
             ]
         );
     }
