@@ -47,7 +47,7 @@ class Aws
         $this->header = array_merge($this->header, $header);
         try {
             $options = [
-                CURLOPT_HEADER         => 0,
+                CURLOPT_HEADER         => true,
                 CURLOPT_RETURNTRANSFER => 1,
                 CURLOPT_FOLLOWLOCATION => 1,
                 CURLOPT_URL            => $path,
