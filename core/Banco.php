@@ -26,12 +26,12 @@ class Banco
         }
     }
 
-    public function error(): void
+    public function error($sql = []): void
     {
         echo json_encode([
             "next" => false,
             "message" => "Perda de comunicação com o banco",
-            "payload" => []
+            "payload" => $sql
         ]);
         die;
     }
@@ -52,7 +52,7 @@ class Banco
         try {
             $this->pdo->query($sql);
         } catch (\Throwable $th) {
-            $this->error();
+            $this->error($sql);
         }
     }
 
