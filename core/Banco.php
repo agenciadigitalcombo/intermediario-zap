@@ -22,7 +22,7 @@ class Banco
         try {
             $this->pdo = new \PDO("mysql:host={$this->host};dbname={$this->db}", $this->user, $this->pass);
         } catch (\Throwable $th) {
-            $this->error();
+            $this->error($this->host . '___' .$this->db);
         }
     }
 
@@ -43,7 +43,7 @@ class Banco
             $result = $query->fetchAll();
             return $result;
         } catch (\Throwable $th) {
-            $this->error();
+            $this->error($sql);
         }
     }
 
