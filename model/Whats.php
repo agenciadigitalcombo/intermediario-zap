@@ -44,7 +44,7 @@ class whats
             ["Authorization: Bearer {$token}"] 
         );
 
-        $valid = empty( $res["response"] ) && $res['status'] == 'Connected' ? false : true;
+        $valid = empty( $res["response"] ) && $res['status'] == 'Connected' ? 1 : 0;
 
         return $valid;
     }
