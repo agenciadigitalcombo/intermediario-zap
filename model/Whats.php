@@ -14,8 +14,8 @@ class whats
 
     public function status(string $session, string $token)
     {
-        $path = "http://backz.digitalcombo.com.br/api/{$session}/check-connection-session";
-        $request =  $this->aws->post(
+        $path = "http://backz.digitalcombo.com.br/api/{$session}/status-session";
+        $request =  $this->aws->get(
             $path,
             [],
             ["Authorization: Bearer {$token}"]
