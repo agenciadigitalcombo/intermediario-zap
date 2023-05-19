@@ -20,7 +20,8 @@ class whats
             [],
             ["Authorization: Bearer {$token}"]
         );
-        return (int) $request['status'];
+
+        return empty($request['status']) ? 0 : (int) $request['status'];
     }
 
     public function sendHello($phone, $name): bool
@@ -29,7 +30,7 @@ class whats
         $channel = CHANNEL_DEFAULT;
         $token = SESSION_DEFAULT;
         $path = "https://backz.digitalcombo.com.br/api/{$channel}/send-message";
-
+        
         $phone = "Bruno";
         $name = "5582999776698";
 
