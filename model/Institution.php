@@ -62,6 +62,7 @@ class Institution
 
     public function isRegister(string $ref): bool
     {
+        $this->db->table('institution');
         $this->db->where([
             "ref" => $ref
         ]);
