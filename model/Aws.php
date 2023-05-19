@@ -47,11 +47,11 @@ class Aws
         $this->header = array_merge($this->header, $header);
         try {
             $options = [
-                CURLOPT_HEADER         => true,
+                CURLOPT_HEADER         => false,
                 CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_FOLLOWLOCATION => 1,
+                CURLOPT_FOLLOWLOCATION => 0,
                 CURLOPT_URL            => $path,
-                CURLOPT_HTTPHEADER     => $this->header,
+                CURLOPT_HTTPHEADER     => $header,
             ];
 
             var_dump($options);
