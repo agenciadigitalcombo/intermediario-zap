@@ -10,7 +10,7 @@ class Institution
     public function __construct(\core\Banco $banco)
     {
         $this->db = $banco;
-        $this->db->table('institution');
+        
     }
 
     public function register(
@@ -25,8 +25,6 @@ class Institution
  
         if (!$this->isRegister($ref)) {
 
-            echo "register inst";
-
             $db_read_only = new \core\BancoReadOnly();
             $integration = new \model\Integration($db_read_only);
             $dados_whats = $integration->whats($ref);
@@ -40,6 +38,7 @@ class Institution
 
             $tel = new \model\Phone($phone);
 
+            $this->db->table('institution');
             $this->db->insert([
                 'name' => $name,
                 'color' => $color,

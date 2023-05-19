@@ -10,11 +10,12 @@ class Contact
     public function __construct(\core\Banco $db)
     {
         $this->db = $db;
-        $this->db->table('contact');
+       
     }
 
     public function existContact(string $ref): bool
     {
+        $this->db->table('contact');
         $this->db->where([
             'ref' => $ref
         ]);
@@ -34,9 +35,6 @@ class Contact
         $whats  = new \model\Whats($aws);
 
         if (!$this->existContact($ref)) {
-            
-            echo "register contact";
-
             $tel = new \model\Phone($phone);
             $valid = false;
             $isNumberValid = $tel->valid;
@@ -44,6 +42,7 @@ class Contact
             if($isNumberValid) {
                 $valid = $whats->sendHello($tel->phone, $name);         
             }
+            $this->db->table('contact');
             $this->db->insert([
                 'ref' => $ref,
                 'institution_ref' => $institution_ref,
