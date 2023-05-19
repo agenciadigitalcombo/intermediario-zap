@@ -44,18 +44,16 @@ class Aws
     }
     public function get(string $path, array $payload = [], $header = [])
     {
+
         $this->header = array_merge($this->header, $header);
         try {
             $options = [
-                CURLOPT_HEADER         => false,
+                CURLOPT_HEADER         => 0,
                 CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_FOLLOWLOCATION => 0,
+                CURLOPT_FOLLOWLOCATION => 1,
                 CURLOPT_URL            => $path,
-                CURLOPT_HTTPHEADER     => $header,
-            ];
-
-            var_dump($options);
-            
+                CURLOPT_HTTPHEADER     =>  $this->header,
+            ]; 
             $con = curl_init();
             curl_setopt_array($con, $options);
             $ex = curl_exec($con);
@@ -66,10 +64,6 @@ class Aws
                 "message" => $message,
                 "payload" =>[]
             ];
-            echo $message;
-            echo "--- \r\n";
-            echo $ex;
-            die;
             return json_decode($ex, true) ?? $error;
         } catch (\Throwable $th) {
         }

@@ -14,14 +14,13 @@ class whats
 
     public function status(string $session, string $token)
     {
-        $path = "http://backz.digitalcombo.com.br/api/{$session}/status-session";
+        $path = "http://backz.digitalcombo.com.br/api/{$session}/check-connection-session";
         $request =  $this->aws->get(
             $path,
             [],
             ["Authorization: Bearer {$token}"]
         );
-        var_dump($request);
-        return $request['status'] ?? false;
+        return (int) $request['status'];
     }
 
     public function sendHello($phone, $name): bool
@@ -41,7 +40,7 @@ class whats
                 "message" => "Seja bem vindo {$name}",
                 "isGroup" => false
             ],
-            ["Authorization: Bearer {$token}"]
+            ["Authorization: Bearer {$token}"] 
         );
 
         $valid = empty( $res["response"] ) && $res['status'] == 'Connected' ? false : true;
