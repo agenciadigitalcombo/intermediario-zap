@@ -21,8 +21,8 @@ class Template
     public function getTemplate(
         string $type,
         string $inst_key
-    ): array {
-        return [];
+    ): string {
+        return '';
     }
 
     public function blade(
