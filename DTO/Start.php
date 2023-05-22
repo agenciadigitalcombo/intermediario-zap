@@ -16,6 +16,11 @@ class start
     public $cc_phone;
     public $external_id;
     public $cc_ref;
+    public $status_payment;
+    public $type_payment;
+    public $url;
+    public $code;
+    public $valor;
 
     public function __construct()
     {
@@ -26,6 +31,12 @@ class start
         $this->site = $_REQUEST['instituicao']['domain'];
         $this->phone = $_REQUEST['instituicao']['telefone'];
         $this->email = $_REQUEST['instituicao']['email'];
+
+        $this->status_payment = $_REQUEST['status_payment'];
+        $this->type_payment = $_REQUEST['type_payment'];
+        $this->url = $_REQUEST['url'];
+        $this->code = $_REQUEST['code'];
+        $this->code = $_REQUEST['valor'];
 
         $this->external_id = $_REQUEST['external_id'];
 

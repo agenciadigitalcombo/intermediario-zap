@@ -69,6 +69,15 @@ class Institution
         return count($this->db->select()) > 0;
     }
 
+    public function getInst(string $ref): array
+    {
+        $this->db->table('institution');
+        $this->db->where([
+            "ref" => $ref
+        ]);
+        return self::porter( $this->db->select()[0] );
+    }
+
     public function report(): array
     {
         return array_map(['\\model\\Institution', 'porter'], $this->db->select());

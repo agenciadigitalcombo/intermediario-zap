@@ -5,5 +5,4 @@ http://apiwhats.con
 
 # Domain On Line
 
-https://zapzap.digitalcombo.com.br
-
+https://zaphub.combopay.com.br
