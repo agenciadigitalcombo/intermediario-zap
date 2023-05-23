@@ -9,13 +9,13 @@ class Event extends \core\Controle
     {
 
         // verify status valid
-       
-        $dados = new \DTO\Start();                
-       
+
+        $dados = new \DTO\Start();
+
         $db = new \core\Banco();
         $inst = new \model\Institution($db);
-        $contact = new \model\Contact($db);        
-        $tpl = new \model\Template($db);        
+        $contact = new \model\Contact($db);
+        $tpl = new \model\Template($db);
 
         $inst->register(
             $dados->name,
@@ -48,42 +48,43 @@ class Event extends \core\Controle
             $keyTemplateEmail,
             $dados->ref
         );
-        
+
         $tpl->register(
-            $keyTemplateEmail,
+            $keyTemplateWhats,
             $dados->ref
         );
 
         $templateEmail = $tpl->getTemplate($keyTemplateEmail, $dados->ref);
-        $templateWhats = $tpl->getTemplate($keyTemplateEmail, $dados->ref);
+        $templateWhats = $tpl->getTemplate($keyTemplateWhats, $dados->ref);
         
+        $templateHtml = file_get_contents(__DIR__."/../DEFAULT.html");
+        $bodyEmail = $tpl->blade($templateEmail['message_template'], (array) $dados, $templateHtml);
+        $bodyWhats = $tpl->blade($templateWhats['message_template'], (array) $dados);
 
-        
-        $bodyEmail = $tpl->blade( $templateEmail,(array) $dados);
-        $bodyWhats = $tpl->blade( $templateWhats,(array) $dados);
-     
+        echo $bodyWhats;
 
-        if( $saldo ) {
-            if($connected) {
-                if($userValid) {
+
+
+        if ($saldo) {
+            if ($connected) {
+                if ($userValid) {
                     // interpola body
                     $send = 1; // send api
-                    if( $send ) {
+                    if ($send) {
                         // save sender 
                         // increment sender user
                         // increment sender inst
                         // decrement balance inst
-                    }else{
+                    } else {
                         // save fail 
                         // update status inst
                     }
-                }else{
+                } else {
                     // save fail 
                 }
-            }else{
+            } else {
                 // save await
             }
-
         }
 
         self::printSuccess(

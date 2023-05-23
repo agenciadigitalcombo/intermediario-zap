@@ -21,6 +21,7 @@ class start
     public $url;
     public $code;
     public $valor;
+    public $NOME;
 
     public function __construct()
     {
@@ -43,6 +44,7 @@ class start
         $donation = new \model\Donation();       
 
         $this->cc_name = $_REQUEST['nome'];
+        $this->NOME = $_REQUEST['nome'];
         $this->cc_email = $_REQUEST['email'];
         $this->cc_phone = $_REQUEST['telefone'];
         $this->cc_ref = $donation->getDonorByExternalId($this->external_id);
