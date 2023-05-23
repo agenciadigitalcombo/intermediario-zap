@@ -16,6 +16,8 @@ class Event extends \core\Controle
         $inst = new \model\Institution($db);
         $contact = new \model\Contact($db);
         $tpl = new \model\Template($db);
+        $fail = new \model\Fail($db);
+        $await = new \model\Await($db);
 
         $inst->register(
             $dados->name,
@@ -61,15 +63,15 @@ class Event extends \core\Controle
         $bodyEmail = $tpl->blade($templateEmail['message_template'], (array) $dados, $templateHtml);
         $bodyWhats = $tpl->blade($templateWhats['message_template'], (array) $dados);
 
-        echo $bodyWhats;
+        
 
 
 
         if ($saldo) {
             if ($connected) {
                 if ($userValid) {
-                    // interpola body
-                    $send = 1; // send api
+                    
+                    $send = 0; // send api
                     if ($send) {
                         // save sender 
                         // increment sender user
@@ -80,10 +82,26 @@ class Event extends \core\Controle
                         // update status inst
                     }
                 } else {
-                    // save fail 
+                    $fail->save(
+                        $dados->ref,
+                        $dados->cc_ref,
+                        $bodyWhats,
+                        $dados->external_id,
+                        $bodyWhats,
+                        $dados->valor,
+                        $dados->due_date
+                    );
                 }
             } else {
-                // save await
+                $await->save(
+                    $dados->ref,
+                    $dados->cc_ref,
+                    $bodyWhats,
+                    $dados->external_id,
+                    $bodyWhats,
+                    $dados->valor,
+                    $dados->due_date
+                );
             }
         }
 
@@ -91,7 +109,7 @@ class Event extends \core\Controle
             "Evento Estartado",
             [
                 "nextMessage" => "2023-04-31 09:30:60",
-                "debug" => $keyTemplateWhats,
+                "debug" => $userValid,
             ]
         );
     }

@@ -21,6 +21,7 @@ class start
     public $url;
     public $code;
     public $valor;
+    public $due_date;
     public $NOME;
 
     public function __construct()
@@ -37,9 +38,10 @@ class start
         $this->type_payment = $_REQUEST['type_payment'];
         $this->url = $_REQUEST['url'];
         $this->code = $_REQUEST['code'];
-        $this->code = $_REQUEST['valor'];
+        $this->valor = $_REQUEST['valor'];
 
         $this->external_id = $_REQUEST['external_id'];
+        $this->due_date = $_REQUEST['dataDeEnvio'];
 
         $donation = new \model\Donation();       
 
