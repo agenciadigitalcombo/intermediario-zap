@@ -4,6 +4,8 @@ namespace model;
 
 class Aws
 {
+    public $header;
+
     function __construct()
     {
         $this->header = [
@@ -33,7 +35,7 @@ class Aws
             curl_close($con);
             $error = [
                 "next" => false,
-                "message" => $message,
+                "message" =>  json_decode($ex, true) ?? $message,
                 "payload" => []
 
             ];
@@ -61,7 +63,7 @@ class Aws
                 CURLOPT_RETURNTRANSFER => 1,
                 CURLOPT_FOLLOWLOCATION => 1,
                 CURLOPT_URL            => $path,
-                CURLOPT_HTTPHEADER     =>  $this->header,
+                CURLOPT_HTTPHEADER     => $header,
             ];
             $con = curl_init();
             curl_setopt_array($con, $options);
@@ -70,7 +72,7 @@ class Aws
             curl_close($con);
             $error = [
                 "next" => false,
-                "message" => $message,
+                "message" => json_decode($ex, true) ?? $message,
                 "payload" => []
             ];
             return json_decode($ex, true) ?? $error;

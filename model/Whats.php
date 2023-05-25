@@ -6,46 +6,48 @@ class whats
 {
 
     private $aws;
+    public $channel;
+    public $token;
 
     public function __construct(\model\Aws $aws)
     {
         $this->aws = $aws;
     }
 
-    public function status(string $session, string $token)
+    public function status()
     {
-        $path = "http://backz.digitalcombo.com.br/api/{$session}/check-connection-session";
-        $request =  $this->aws->get(
+        $channel = $this->channel;
+        $token = $this->token;
+        $path = "http://backz.digitalcombo.com.br/api/{$channel}/check-connection-session";
+        $request =  $this->aws->post(
             $path,
             [],
             ["Authorization: Bearer {$token}"]
         );
-
         return empty($request['status']) ? 0 : (int) $request['status'];
     }
 
-    public function sendHello($phone, $name): bool
+    public function sender($phone, string $name, string $body): bool
     {
-
-        $channel = CHANNEL_DEFAULT;
-        $token = SESSION_DEFAULT;
+        $channel = $this->channel;
+        $token = $this->token;
         $path = "https://backz.digitalcombo.com.br/api/{$channel}/send-message";
-        
-        $phone = "Bruno";
-        $name = "5582999776698";
-
         $res = $this->aws->post(
             $path,
             [
                 "phone" => $phone,
-                "message" => "Seja bem vindo {$name}",
+                "message" => $body,
                 "isGroup" => false
             ],
-            ["Authorization: Bearer {$token}"] 
+            ["Authorization: Bearer {$token}"]
         );
-
-        $valid = empty( $res["response"] ) && $res['status'] == 'Connected' ? 1 : 0;
-
+        $valid = !empty($res["response"]) && $res['status'] == 'success' ? 1 : 0;
         return $valid;
+    }
+
+    public function sendHello($phone, $name): bool
+    {
+        $body = "Seja bem vindo {$name}";
+        return $this->sender($phone, $name, $body);
     }
 }

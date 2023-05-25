@@ -17,6 +17,8 @@ class Event extends \core\Controle
         $fail = new \model\Fail($db);
         $await = new \model\Await($db);
         $sender = new \model\Sender($db);
+        $aws = new \model\Aws();
+        $whats_doar = new \model\WhatsDoar($aws);
 
         $inst->register(
             $dados->name,
@@ -65,8 +67,30 @@ class Event extends \core\Controle
         if ($saldo) {
             if ($connected) {
                 if ($userValid) {
-                    $send = 1; // send api
-                    if ($send) {
+
+                    
+                    $send = $whats_doar->sender('5582999776698', 'Bruno', $bodyWhats );
+
+                    
+                    if($dados->status_payment != 'CREDIT_CARD' && $send ) {
+                        var_dump('segunda');
+                        $whats_doar->sender('5582999776698', 'Bruno', $dados->url );
+                    }
+
+                    // add fnc send mail 
+                    $sender->save(
+                        $dados->ref,
+                        $dados->cc_ref,
+                        $keyTemplateEmail,
+                        $dados->external_id,
+                        base64_encode($bodyEmail),
+                        $dados->valor,
+                        $dados->due_date
+                    );
+                                           
+
+                    if ($send) {                        
+                        
                         $contact->plusContact($dados->cc_ref);
                         $inst->plusSuccess($dados->ref);
                         $sender->save(
@@ -76,17 +100,8 @@ class Event extends \core\Controle
                             $dados->external_id,
                             $bodyWhats,
                             $dados->valor,
-                            $dados->due_date                           
-                        );
-                        $sender->save(
-                            $dados->ref,
-                            $dados->cc_ref,
-                            $keyTemplateEmail,
-                            $dados->external_id,
-                            base64_encode( $bodyEmail ),
-                            $dados->valor,
-                            $dados->due_date                           
-                        );
+                            $dados->due_date
+                        );                        
                     } else {
                         $inst->offLine($dados->ref);
                         $fail->save(
