@@ -8,8 +8,6 @@ class Event extends \core\Controle
     static public function start()
     {
 
-        // verify status valid
-
         $dados = new \DTO\Start();
 
         $db = new \core\Banco();
@@ -18,6 +16,7 @@ class Event extends \core\Controle
         $tpl = new \model\Template($db);
         $fail = new \model\Fail($db);
         $await = new \model\Await($db);
+        $sender = new \model\Sender($db);
 
         $inst->register(
             $dados->name,
@@ -58,34 +57,54 @@ class Event extends \core\Controle
 
         $templateEmail = $tpl->getTemplate($keyTemplateEmail, $dados->ref);
         $templateWhats = $tpl->getTemplate($keyTemplateWhats, $dados->ref);
-        
-        $templateHtml = file_get_contents(__DIR__."/../DEFAULT.html");
+
+        $templateHtml = file_get_contents(__DIR__ . "/../DEFAULT.html");
         $bodyEmail = $tpl->blade($templateEmail['message_template'], (array) $dados, $templateHtml);
         $bodyWhats = $tpl->blade($templateWhats['message_template'], (array) $dados);
-
-        
-
-
 
         if ($saldo) {
             if ($connected) {
                 if ($userValid) {
-                    
-                    $send = 0; // send api
+                    $send = 1; // send api
                     if ($send) {
-                        // save sender 
-                        // increment sender user
-                        // increment sender inst
-                        // decrement balance inst
+                        $contact->plusContact($dados->cc_ref);
+                        $inst->plusSuccess($dados->ref);
+                        $sender->save(
+                            $dados->ref,
+                            $dados->cc_ref,
+                            $keyTemplateWhats,
+                            $dados->external_id,
+                            $bodyWhats,
+                            $dados->valor,
+                            $dados->due_date                           
+                        );
+                        $sender->save(
+                            $dados->ref,
+                            $dados->cc_ref,
+                            $keyTemplateEmail,
+                            $dados->external_id,
+                            base64_encode( $bodyEmail ),
+                            $dados->valor,
+                            $dados->due_date                           
+                        );
                     } else {
-                        // save fail 
-                        // update status inst
+                        $inst->offLine($dados->ref);
+                        $fail->save(
+                            $dados->ref,
+                            $dados->cc_ref,
+                            $keyTemplateWhats,
+                            $dados->external_id,
+                            $bodyWhats,
+                            $dados->valor,
+                            $dados->due_date,
+                            '400'
+                        );
                     }
                 } else {
                     $fail->save(
                         $dados->ref,
                         $dados->cc_ref,
-                        $bodyWhats,
+                        $keyTemplateWhats,
                         $dados->external_id,
                         $bodyWhats,
                         $dados->valor,
@@ -96,7 +115,7 @@ class Event extends \core\Controle
                 $await->save(
                     $dados->ref,
                     $dados->cc_ref,
-                    $bodyWhats,
+                    $keyTemplateWhats,
                     $dados->external_id,
                     $bodyWhats,
                     $dados->valor,

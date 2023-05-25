@@ -4,7 +4,7 @@ namespace model;
 
 use core\Banco;
 
-class Fail
+class Sender
 {
     public $db;
 
@@ -20,24 +20,22 @@ class Fail
         string $external_id,
         string $body,
         string $price,
-        string $due_date,
-        string $status = '403'
+        string $due_date       
     ):void {
-        $this->db->table('fail');
+        $this->db->table('sender');
         $this->db->insert([
             "ref" => $external_id,
             "institution_ref" => $inst_key,
             "contact_ref" => $contact_key,
             "register_date" => date('Y-m-d'),
             "update_date" => date('Y-m-d'),
-            "next_date" => $due_date,
             "message_type" => $type_message,
+            "next_date" => $due_date,
             "message" => $body,
             "price" => $price,
-            "status" => $status,
-            "custom" => serialize([]),
+            "status" => 200,
+            "custom" => serialize([]),            
         ]);
-        $this->db->exec("UPDATE institution SET fail=fail+1 WHERE ref='{$inst_key}'" );
 
     }
 }

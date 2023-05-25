@@ -30,6 +30,11 @@ class Contact
         return self::porter( $this->db->select()[0] );
     }
 
+    public function plusContact(string $ref): void
+    { 
+        $this->db->exec("UPDATE contact SET sender=sender+1 WHERE ref='{$ref}'"); 
+    }
+
     public function register(
         string $institution_ref,
         string $name,

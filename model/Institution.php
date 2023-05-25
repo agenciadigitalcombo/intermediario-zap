@@ -68,6 +68,24 @@ class Institution
         ]);
         return count($this->db->select()) > 0;
     }
+    
+    public function plusSuccess(string $ref): void
+    { 
+        $this->db->exec("UPDATE institution SET sender=sender+1 WHERE ref='{$ref}'"); 
+        $this->db->exec("UPDATE institution SET balance=balance-1 WHERE ref='{$ref}'"); 
+    }
+    
+    public function offLine(string $ref): void
+    {
+        $this->db->table('institution');
+        $this->db->where([
+            "ref" => $ref
+        ]);
+        $this->db->update([
+            "status" => 0
+        ]);
+        
+    }
 
     public function getInst(string $ref): array
     {
