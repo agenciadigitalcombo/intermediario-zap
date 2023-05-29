@@ -22,7 +22,10 @@ class whats
         $request =  $this->aws->post(
             $path,
             [],
-            ["Authorization: Bearer {$token}"]
+            [
+                "content-type: application/json",
+                "Authorization: Bearer {$token}"
+            ]
         );
         return empty($request['status']) ? 0 : (int) $request['status'];
     }
@@ -39,9 +42,12 @@ class whats
                 "message" => $body,
                 "isGroup" => false
             ],
-            ["Authorization: Bearer {$token}"]
+            [
+                "content-type: application/json",
+                "Authorization: Bearer {$token}"
+            ]
         );
-        $valid = !empty($res["response"]) && $res['status'] == 'success' ? 1 : 0;
+        $valid = $res['status'] == 'success' ? 1 : 0;
         return $valid;
     }
 

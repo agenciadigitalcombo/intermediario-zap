@@ -67,14 +67,12 @@ class Event extends \core\Controle
         if ($saldo) {
             if ($connected) {
                 if ($userValid) {
-
                     
-                    $send = $whats_doar->sender('5582999776698', 'Bruno', $bodyWhats );
-
+                    $send = $whats_doar->sender('5582999776698', $dados->cc_name, $bodyWhats );                  
                     
                     if($dados->status_payment != 'CREDIT_CARD' && $send ) {
-                        var_dump('segunda');
-                        $whats_doar->sender('5582999776698', 'Bruno', $dados->url );
+                        $link = "https://doar.associacaoguadalupe.org.br/code/#/?code=" . $dados->pay_id;
+                        $whats_doar->sender('5582999776698', $dados->cc_name,  $link );
                     }
 
                     // add fnc send mail 
@@ -84,7 +82,7 @@ class Event extends \core\Controle
                         $keyTemplateEmail,
                         $dados->external_id,
                         base64_encode($bodyEmail),
-                        $dados->valor,
+                        floatval( $dados->valor ),
                         $dados->due_date
                     );
                                            
