@@ -19,6 +19,7 @@ class Event extends \core\Controle
         $sender = new \model\Sender($db);
         $aws = new \model\Aws();
         $whats_doar = new \model\WhatsDoar($aws);
+        $mail = new \model\Email();
 
         $inst->register(
             $dados->name,
@@ -60,6 +61,7 @@ class Event extends \core\Controle
         $templateEmail = $tpl->getTemplate($keyTemplateEmail, $dados->ref);
         $templateWhats = $tpl->getTemplate($keyTemplateWhats, $dados->ref);
 
+
         $templateHtml = file_get_contents(__DIR__ . "/../DEFAULT.html");
         $bodyEmail = $tpl->blade($templateEmail['message_template'], (array) $dados, $templateHtml);
         $bodyWhats = $tpl->blade($templateWhats['message_template'], (array) $dados);
@@ -75,7 +77,14 @@ class Event extends \core\Controle
                         $whats_doar->sender('5582999776698', $dados->cc_name,  $link );
                     }
 
-                    // add fnc send mail 
+                    $res_email = $mail->send(
+                        $dados->cc_email,
+                        $dados->mailSender,
+                        $dados->name,
+                        $templateEmail["custom"]["subject"],
+                        base64_encode($bodyEmail)
+                    );
+
                     $sender->save(
                         $dados->ref,
                         $dados->cc_ref,
@@ -141,7 +150,7 @@ class Event extends \core\Controle
             "Evento Estartado",
             [
                 "nextMessage" => "2023-04-31 09:30:60",
-                "debug" => $userValid,
+                "debug" => $res_email,
             ]
         );
     }

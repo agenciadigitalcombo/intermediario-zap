@@ -24,6 +24,8 @@ class start
     public $due_date;
     public $NOME;
     public $pay_id;
+    public $mailSender;
+    public $LINK;
 
     public function __construct()
     {
@@ -34,10 +36,12 @@ class start
         $this->site = $_REQUEST['instituicao']['domain'];
         $this->phone = $_REQUEST['instituicao']['telefone'];
         $this->email = $_REQUEST['instituicao']['email'];
+        $this->mailSender = $_REQUEST['instituicao']['mailSender'];
 
         $this->status_payment = $_REQUEST['status_payment'];
         $this->type_payment = $_REQUEST['type_payment'];
         $this->url = $_REQUEST['url'];
+        $this->LINK = $_REQUEST['url'];
         $this->code = $_REQUEST['code'];
         $this->code = $_REQUEST['code'];
         $this->pay_id = $_REQUEST['fatura_id'];

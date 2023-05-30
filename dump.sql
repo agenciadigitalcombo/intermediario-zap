@@ -14,6 +14,7 @@ CREATE TABLE `institution` (
     `sender` int DEFAULT 0,
     `fail` int DEFAULT 0,
     `register_date` varchar(255) DEFAULT NULL,
+    `update_date` varchar(255) DEFAULT NULL,
     `balance` int DEFAULT 0,
     `custom` TEXT,
     PRIMARY KEY (`id`)

@@ -73,7 +73,20 @@ class Template
             "institution_ref" => $inst_key,
             "message_type" => $type,
         ]);
-        return $this->db->select()[0];
+        return self::porter($this->db->select()[0] ?? []);
+    }
+
+    static function porter(array $payload): array
+    {
+        return [
+            "id" => $payload['id'] ?? null,
+            "institution_ref" => $payload['institution_ref'] ?? null,
+            "register_date" => $payload['register_date'] ?? null,
+            "update_date" => $payload['update_date'] ?? null,
+            "message_type" => $payload['message_type'] ?? null,
+            "message_template" => $payload['message_template'] ?? null,
+            "custom" => unserialize($payload['custom']) ?? null,
+        ];
     }
 
     static function allTag(): array
@@ -102,12 +115,13 @@ class Template
 
     public function blade(
         string $body,
-        array $data, 
+        array $data,
         string $template = ''
     ): string {
-        if(!empty($template)) {
+        var_dump($data);
+        if (!empty($template)) {
             $html = str_replace('@@body@@', $body, $template);
-        }else{
+        } else {
             $html = $body;
         }
         foreach ($data as $k => $v) {
@@ -117,6 +131,9 @@ class Template
             }
         }
         $html = trim(str_replace("%20", ' ', $html));
+        $style = 'style="background:#20e277;text-decoration:none !important; font-weight:700;  color:#fff;text-transform:uppercase; font-size:19px;padding:20px 30px;display:block;border-radius:50px; margin: 0 auto; width: 200px; margin-top:35px;"';
+        $html = str_replace('{STYLE_BTN}', $style, $html);
+        $html = str_replace('{my_content}', '', $html);
         return $html;
     }
 }
