@@ -19,17 +19,89 @@ class Cron extends \core\Controle
         $channel = $topList['channel'];
         $token = $topList['session_token'];
 
+        $aws = new \model\Aws();
+        $whats = new \model\Whats($aws);
+        $whats->channel = $channel;
+        $whats->token = $token;
+        $status = $whats->status();
+        $date_update = date('Y-m-d H:i:s');
+
+        $db->table('institution');
+        $db->where([
+            "id" => (int) $topList['id']
+        ]);
+        $db->update([
+            "status" => $status,
+            "update_date" => $date_update,
+        ]);
+
         self::printSuccess(
             "Lista Institution",
-            $listAll
+            [
+                "total" => count($listAll),
+                "name" => $topList['name'],
+                "ref" => $topList['ref'],
+                "status" => $status,
+                "date_update" => $date_update,
+            ]
         );
     }
 
     static function fails()
     {
+
+        $db = new Banco();
+        $sql = "SELECT * FROM institution WHERE status=1 AND balance>0";
+        $listAll = $db->query($sql);
+        $ids = array_map(function ($inst) {
+            return $inst['ref'];
+        }, $listAll);
+        $ids = array_values($ids);
+
+        $sql = "SELECT * FROM fail WHERE status != '403' AND institution_ref IN('" . implode("','", $ids) . "') ORDER BY update_date ASC";
+        $all_fails = $db->query($sql);
+
+
+        $top = $all_fails[0];
+        $update_date = date('Y-m-d H:i:s');
+
+        $inst_ref = $top["institution_ref"];
+        $contact_ref = $top["contact_ref"];
+
+        $inst = $db->query("SELECT channel, session_token, ref from institution WHERE ref='{$inst_ref}'");
+        // pegar tokens inst 
+
+        $contact = $db->query("SELECT ref, phone, name from contact WHERE ref='{$contact_ref}'")[0];
+
+        $aws = new \model\Aws();
+        $whats = new \model\WhatsDoar($aws);
+
+        $phone = $contact['phone'];
+        $name = $contact['name'];
+        $message = $top['message'];
+        $message = $top['message'];
+        $message_type = $top['message_type'];
+
+        $whats->sender(
+            '5582999776698',
+            $name,
+            $message
+        );
+
+        if ($message_type != 'CREDIT_CARD') {
+            // GET LINK FIELD CUSTON 
+            $whats->sender('5582999776698', $name,  'LINK EM BREVE');
+        }
+
         self::printSuccess(
             "",
-            []
+            [
+                "inst_on" =>  $ids,
+                "total" => count($all_fails),
+                "update_date" => $update_date,
+                "message" => $top,
+                "contact" => $contact,
+            ]
         );
     }
 

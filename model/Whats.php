@@ -18,8 +18,8 @@ class whats
     {
         $channel = $this->channel;
         $token = $this->token;
-        $path = "http://backz.digitalcombo.com.br/api/{$channel}/check-connection-session";
-        $request =  $this->aws->post(
+        $path = "https://backz.digitalcombo.com.br/api/{$channel}/check-connection-session";
+        $request =  $this->aws->get(
             $path,
             [],
             [
