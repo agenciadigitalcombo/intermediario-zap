@@ -40,7 +40,7 @@ class Banco
     {
         try {
             $query = $this->pdo->query($sql);
-            $result = $query->fetchAll();
+            $result = $query->fetchAll(\PDO::FETCH_ASSOC);
             return $result;
         } catch (\Throwable $th) {
             $this->error($sql);

@@ -20,7 +20,8 @@ class Sender
         string $external_id,
         string $body,
         string $price,
-        string $due_date       
+        string $due_date,
+        array $custom = []
     ):void {
         $this->db->table('sender');
         $this->db->insert([
@@ -34,7 +35,7 @@ class Sender
             "message" => $body,
             "price" => $price,
             "status" => 200,
-            "custom" => serialize([]),            
+            "custom" => serialize($custom),            
         ]);
 
     }

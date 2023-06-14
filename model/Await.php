@@ -20,7 +20,8 @@ class Await
         string $external_id,
         string $body,
         string $price,
-        string $due_date
+        string $due_date,
+        array $custom = []
     ): void {
         $this->db->table('await');
         $this->db->insert([
@@ -33,7 +34,7 @@ class Await
             "message_type" => $type_message,
             "message" => $body,
             "price" => $price,
-            "custom" => serialize([]),
+            "custom" => serialize($custom),
         ]);
     }
 }

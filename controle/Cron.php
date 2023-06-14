@@ -68,6 +68,11 @@ class Cron extends \core\Controle
         $inst_ref = $top["institution_ref"];
         $contact_ref = $top["contact_ref"];
 
+        $top['custom'] = unserialize($top['custom']);
+
+        $link = $top['custom']['link'] ?? 'http://www.google.com';
+        $code = $top['custom']['code'] ?? '0000 0000 0000 0000 0000 0000 0000 ';
+
         $inst = $db->query("SELECT channel, session_token, ref from institution WHERE ref='{$inst_ref}'");
         // pegar tokens inst 
 
@@ -82,15 +87,20 @@ class Cron extends \core\Controle
         $message = $top['message'];
         $message_type = $top['message_type'];
 
-        $whats->sender(
+        $isSend = $whats->sender(
             '5582999776698',
             $name,
             $message
         );
 
-        if ($message_type != 'CREDIT_CARD') {
-            // GET LINK FIELD CUSTON 
-            $whats->sender('5582999776698', $name,  'LINK EM BREVE');
+        if ($isSend) {
+            if ($message_type == 'BOLETO') {
+                $whats->sender('5582999776698', $name,  $link);
+            }
+
+            if ($message_type == 'PIX') {
+                $whats->sender('5582999776698', $name,  $code);
+            }
         }
 
         self::printSuccess(
@@ -101,6 +111,7 @@ class Cron extends \core\Controle
                 "update_date" => $update_date,
                 "message" => $top,
                 "contact" => $contact,
+                "isSend" => $isSend,
             ]
         );
     }

@@ -21,7 +21,8 @@ class Fail
         string $body,
         string $price,
         string $due_date,
-        string $status = '403'
+        string $status = '403', 
+        array $custom = []
     ):void {
         $this->db->table('fail');
         $this->db->insert([
@@ -35,7 +36,7 @@ class Fail
             "message" => $body,
             "price" => $price,
             "status" => $status,
-            "custom" => serialize([]),
+            "custom" => serialize($custom),
         ]);
         $this->db->exec("UPDATE institution SET fail=fail+1 WHERE ref='{$inst_key}'" );
 
