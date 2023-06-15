@@ -118,7 +118,6 @@ class Template
         array $data,
         string $template = ''
     ): string {
-        var_dump($data);
         if (!empty($template)) {
             $html = str_replace('@@body@@', $body, $template);
         } else {

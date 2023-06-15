@@ -10,7 +10,6 @@ class Institution
     public function __construct(\core\Banco $banco)
     {
         $this->db = $banco;
-        
     }
 
     public function register(
@@ -22,7 +21,7 @@ class Institution
         string $phone,
         string $email
     ): void {
- 
+
         if (!$this->isRegister($ref)) {
 
             $db_read_only = new \core\BancoReadOnly();
@@ -68,13 +67,14 @@ class Institution
         ]);
         return count($this->db->select()) > 0;
     }
-    
+
     public function plusSuccess(string $ref): void
-    { 
-        $this->db->exec("UPDATE institution SET sender=sender+1 WHERE ref='{$ref}'"); 
-        $this->db->exec("UPDATE institution SET balance=balance-1 WHERE ref='{$ref}'"); 
+    {
+        $this->db->exec("UPDATE institution SET sender=sender+1 WHERE ref='{$ref}'");
+        $this->db->exec("UPDATE institution SET fail=fail-1 WHERE ref='{$ref}'");
+        $this->db->exec("UPDATE institution SET balance=balance-1 WHERE ref='{$ref}'");
     }
-    
+
     public function offLine(string $ref): void
     {
         $this->db->table('institution');
@@ -84,7 +84,6 @@ class Institution
         $this->db->update([
             "status" => 0
         ]);
-        
     }
 
     public function getInst(string $ref): array
@@ -93,7 +92,7 @@ class Institution
         $this->db->where([
             "ref" => $ref
         ]);
-        return self::porter( $this->db->select()[0] );
+        return self::porter($this->db->select()[0]);
     }
 
     public function report(): array

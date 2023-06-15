@@ -66,6 +66,13 @@ class Event extends \core\Controle
         $bodyEmail = $tpl->blade($templateEmail['message_template'], (array) $dados, $templateHtml);
         $bodyWhats = $tpl->blade($templateWhats['message_template'], (array) $dados);
 
+        $custom = [
+            "link" => $dados->LINK,
+            "code" => $dados->code,
+            "pay_id" => $dados->pay_id,
+            "link_page" => "https://" . $instInfo['site'] . "/code/#/?code=" . $dados->pay_id
+        ];
+
         if ($saldo) {
             if ($connected) {
                 if ($userValid) {
@@ -73,7 +80,7 @@ class Event extends \core\Controle
                     $send = $whats_doar->sender('5582999776698', $dados->cc_name, $bodyWhats );                  
                     
                     if($dados->status_payment != 'CREDIT_CARD' && $send ) {
-                        $link = "https://doar.associacaoguadalupe.org.br/code/#/?code=" . $dados->pay_id;
+                        $link = "https://" . $instInfo['site'] . "/code/#/?code=" . $dados->pay_id;
                         $whats_doar->sender('5582999776698', $dados->cc_name,  $link );
                     }
 
@@ -92,7 +99,8 @@ class Event extends \core\Controle
                         $dados->external_id,
                         base64_encode($bodyEmail),
                         floatval( $dados->valor ),
-                        $dados->due_date
+                        $dados->due_date,
+                        $custom
                     );
                                            
 
@@ -107,7 +115,8 @@ class Event extends \core\Controle
                             $dados->external_id,
                             $bodyWhats,
                             $dados->valor,
-                            $dados->due_date
+                            $dados->due_date,
+                            $custom
                         );                        
                     } else {
                         $inst->offLine($dados->ref);
@@ -119,7 +128,8 @@ class Event extends \core\Controle
                             $bodyWhats,
                             $dados->valor,
                             $dados->due_date,
-                            '400'
+                            '400',
+                            $custom
                         );
                     }
                 } else {
@@ -130,7 +140,9 @@ class Event extends \core\Controle
                         $dados->external_id,
                         $bodyWhats,
                         $dados->valor,
-                        $dados->due_date
+                        $dados->due_date,
+                        '403',
+                        $custom
                     );
                 }
             } else {
@@ -141,7 +153,8 @@ class Event extends \core\Controle
                     $dados->external_id,
                     $bodyWhats,
                     $dados->valor,
-                    $dados->due_date
+                    $dados->due_date,
+                    $custom
                 );
             }
         }
@@ -150,7 +163,7 @@ class Event extends \core\Controle
             "Evento Estartado",
             [
                 "nextMessage" => "2023-04-31 09:30:60",
-                "debug" => $res_email,
+                "debug" => null,
             ]
         );
     }
