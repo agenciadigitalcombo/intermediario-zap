@@ -3,3 +3,6 @@ GET https://zaphub.combopay.com.br/Cron/status
 
 ###
 GET https://zaphub.combopay.com.br/Cron/fails
+
+###
+GET https://zaphub.combopay.com.br/Cron/await

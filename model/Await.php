@@ -36,5 +36,6 @@ class Await
             "price" => $price,
             "custom" => serialize($custom),
         ]);
+        $this->db->exec("UPDATE institution SET fail=fail+1 WHERE ref='{$inst_key}'" );
     }
 }

@@ -76,12 +76,12 @@ class Event extends \core\Controle
         if ($saldo) {
             if ($connected) {
                 if ($userValid) {
-                    
-                    $send = $whats_doar->sender('5582999776698', $dados->cc_name, $bodyWhats );                  
-                    
-                    if($dados->status_payment != 'CREDIT_CARD' && $send ) {
+
+                    $send = $whats_doar->sender('5582999776698', $dados->cc_name, $bodyWhats);
+
+                    if ($dados->status_payment != 'CREDIT_CARD' && $send) {
                         $link = "https://" . $instInfo['site'] . "/code/#/?code=" . $dados->pay_id;
-                        $whats_doar->sender('5582999776698', $dados->cc_name,  $link );
+                        $whats_doar->sender('5582999776698', $dados->cc_name,  $link);
                     }
 
                     $res_email = $mail->send(
@@ -98,14 +98,14 @@ class Event extends \core\Controle
                         $keyTemplateEmail,
                         $dados->external_id,
                         base64_encode($bodyEmail),
-                        floatval( $dados->valor ),
+                        floatval($dados->valor),
                         $dados->due_date,
                         $custom
                     );
-                                           
 
-                    if ($send) {                        
-                        
+
+                    if ($send) {
+
                         $contact->plusContact($dados->cc_ref);
                         $inst->plusSuccess($dados->ref);
                         $sender->save(
@@ -117,7 +117,7 @@ class Event extends \core\Controle
                             $dados->valor,
                             $dados->due_date,
                             $custom
-                        );                        
+                        );
                     } else {
                         $inst->offLine($dados->ref);
                         $fail->save(
@@ -146,7 +146,7 @@ class Event extends \core\Controle
                     );
                 }
             } else {
-                $await->save(
+                $fail->save(
                     $dados->ref,
                     $dados->cc_ref,
                     $keyTemplateWhats,
@@ -154,16 +154,28 @@ class Event extends \core\Controle
                     $bodyWhats,
                     $dados->valor,
                     $dados->due_date,
+                    '400',
                     $custom
                 );
             }
+        } else {
+            $await->save(
+                $dados->ref,
+                $dados->cc_ref,
+                $keyTemplateWhats,
+                $dados->external_id,
+                $bodyWhats,
+                $dados->valor,
+                $dados->due_date,
+                $custom
+            );
         }
 
         self::printSuccess(
             "Evento Estartado",
             [
                 "nextMessage" => "2023-04-31 09:30:60",
-                "debug" => null,
+                "debug" => $saldo,
             ]
         );
     }
